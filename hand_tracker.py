@@ -171,8 +171,7 @@ class HandTracker():
         return joints.reshape(num_imgs,-1,2)
 
     def detect_hand(self, img_norm,input_threshold):
-        assert -1 <= img_norm.min() and img_norm.max() <= 1,\
-        "img_norm should be in range [-1, 1]"
+        #assert -1 <= img_norm.min() and img_norm.max() <= 1,\"img_norm should be in range [-1, 1]"
         assert img_norm.shape == (256, 256, 3),\
         "img_norm shape must be (256, 256, 3)"
 
