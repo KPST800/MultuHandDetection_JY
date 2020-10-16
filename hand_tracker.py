@@ -3,7 +3,7 @@ import cv2
 import numpy as np
 import tensorflow as tf
 ''' modified from:https://github.com/metalwhale/hand_tracking '''
-def non_max_suppression_fast(boxes, probabilities=None, overlap_threshold=0.3):
+def non_max_suppression_fast(boxes, probabilities=None, overlap_threshold=0.5):
     """
     Algorithm to filter bounding box proposals by removing the ones with a too low confidence score
     and with too much overlap.
@@ -148,8 +148,8 @@ class HandTracker():
 
     @staticmethod
     def _im_normalize(img):
-         #return np.ascontiguousarray(2 * ((img / 255) - 0.5).astype('float32'))
-         return np.ascontiguousarray(2 * ((img / 127.5) - 1.0).astype('float32'))
+         return np.ascontiguousarray(2 * ((img / 255) - 0.5).astype('float32'))
+         #return np.ascontiguousarray(2 * ((img / 127.5) - 1.0).astype('float32'))
 
     @staticmethod
     def _sigm(x):
@@ -172,8 +172,8 @@ class HandTracker():
 
     def detect_hand(self, img_norm,input_threshold):
         #assert -1 <= img_norm.min() and img_norm.max() <= 1,\"img_norm should be in range [-1, 1]"
-        assert img_norm.shape == (256, 256, 3),\
-        "img_norm shape must be (256, 256, 3)"
+        #assert img_norm.shape == (256, 256, 3),\
+        #"img_norm shape must be (256, 256, 3)"
 
         # predict hand location and 7 initial landmarks
         self.interp_palm.set_tensor(self.in_idx, img_norm[None])

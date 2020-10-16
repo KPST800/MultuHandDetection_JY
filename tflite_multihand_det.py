@@ -42,6 +42,7 @@ detector = HandTracker(
 
 def runModel(img, threshold):
     image = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    image = cv2.resize(image,(256,256))
     points = detector(image,threshold)
 
     output_json = list()
@@ -64,6 +65,7 @@ def runModel(img, threshold):
     cv2.imshow(WINDOW, img)
     cv2.waitKey(0)
     return output_json
+'''
 cv2.namedWindow(WINDOW)
 capture = cv2.VideoCapture(0)
 
@@ -72,7 +74,8 @@ if capture.isOpened():
 else:
     hasFrame = False
 while hasFrame:
-    image = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
+    image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+    image = cv2.resize(image,(256,256))
     start_t = time.time()
 #    runModel(frame,0.8)
     points = detector(image, 0.8)
@@ -82,10 +85,18 @@ while hasFrame:
         if points_ is not None:
             for point in points_:
                 x, y = point
+                x = x * frame.shape[1] / 256
+                y = y * frame.shape[0] / 256
                 cv2.circle(frame, (int(x), int(y)), THICKNESS * 2, POINT_COLOR, THICKNESS)
             for connection in connections:
                 x0, y0 = points_[connection[0]]
                 x1, y1 = points_[connection[1]]
+                
+                x0 = x0 * frame.shape[1] / 256
+                x1 = x1 * frame.shape[1] / 256
+                y0 = y0 * frame.shape[0] / 256
+                y1 = y1 * frame.shape[0] / 256
+                
                 cv2.line(frame, (int(x0), int(y0)), (int(x1), int(y1)), CONNECTION_COLOR, THICKNESS)
     cv2.imshow(WINDOW, frame)
     hasFrame, frame = capture.read()
@@ -95,6 +106,7 @@ while hasFrame:
 
 capture.release()
 cv2.destroyAllWindows()
-
-#frame = cv2.imread("multi_hands.png")
-#output_json = runModel(frame,0.8)
+'''
+imgs = ["img0.jpg","img3.jpg"][0]
+frame = cv2.imread(imgs)
+output_json = runModel(frame,0.5)

@@ -30,7 +30,8 @@ def after_request(response):
     return response
 
 def runModel(img, threshold):
-    image = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
+    image = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    cv2.imwrite("img0.jpg",image)
     points = detector(image,threshold)
 
     output_json = list()
